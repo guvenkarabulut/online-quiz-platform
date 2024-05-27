@@ -10,7 +10,7 @@ export const lessonsApiSlice = apiSlice.injectEndpoints({
     }),
     getLessonsByTeacher: builder.mutation({
       query: (id) => ({
-        url: `lessons/teacher/${id}`,
+        url: `teacher-lesson/${id}`,
         method: "GET",
       }),
     }),

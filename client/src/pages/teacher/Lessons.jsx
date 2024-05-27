@@ -1,11 +1,29 @@
+import { useEffect, useState } from "react";
 import { Breadcrumb } from "../../components/Breadcrumb";
 import { Card } from "../../components/Card";
 import { SeeStudentsModal } from "../../components/modals/SeeStudentsModal";
 import { Table } from "../../components/Table";
 import { TableRow } from "../../components/TableRow";
+import { useGetLessonsByTeacherMutation } from "../../features/lessons/lessonsApiSlice";
 import DefaultLayout from "../../layouts/DefaultLayout";
 
 const TeacherLessons = () => {
+  const [lessons, setLessons] = useState([]);
+  useEffect(() => {
+    getLessonsData();
+  }, [])
+
+  const [getLessonsByTeacher] = useGetLessonsByTeacherMutation();
+
+  const getLessonsData = async () => {
+    try {
+      const response = await getLessonsByTeacher(5).unwrap();
+      setLessons(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <DefaultLayout>
       <div className="pcoded-main-container">
@@ -13,12 +31,16 @@ const TeacherLessons = () => {
         <Breadcrumb props={{ childs: ["Dersler"] }} />
         <Card props={{ name: "Dersler" }}>
           <div className="table-responsive">
-            <Table columns={["#", "Ders Kodu", "Ders Adı", "Öğrenci Sayısı", "İşlemler"]}>
-              <TableRow rows={["1", "MAT-101", "Matematik", "22"]}>
-                <button type="button" className="btn btn-danger btn-with-icon"><i
-                  className="feather icon-trash"></i></button>
-                <SeeStudentsModal />
-              </TableRow>
+            <Table columns={["#", "Ders Kodu", "Ders Adı", "Ders Tanimi", "İşlemler"]}>
+              {
+                lessons.map((lesson, index) => {
+                  return (
+                    <TableRow key={lesson.id} rows={[lesson.id, lesson.lesson_code, lesson.name, lesson.definition]}>
+                      <SeeStudentsModal props={{ lessonId: lesson.id }} />
+                    </TableRow>
+                  )
+                })
+              }
             </Table>
           </div>
         </Card>

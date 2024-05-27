@@ -31,6 +31,7 @@ export function AdminLessons() {
     try {
       await deleteLesson(id).unwrap();
       getLessonsData();
+
     } catch (error) {
       console.log(error);
     }
