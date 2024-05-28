@@ -1,6 +1,5 @@
 import { Breadcrumb } from "../../../components/Breadcrumb"
 import { Card } from "../../../components/Card"
-import { SeeStudentsModal } from "../../../components/modals/SeeStudentsModal"
 import { Table } from "../../../components/Table"
 import { TableRow } from "../../../components/TableRow"
 import DefaultLayout from "../../../layouts/DefaultLayout"
