@@ -1,10 +1,17 @@
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import { Breadcrumb } from "../../../components/Breadcrumb"
 import { Card } from "../../../components/Card"
 import { Table } from "../../../components/Table"
 import { TableRow } from "../../../components/TableRow"
+import { useGetQuizByIdMutation } from "../../../features/quizs/quizsApiSlice"
 import DefaultLayout from "../../../layouts/DefaultLayout"
 
 export function TeacherQuizsShow() {
+
+
+
+
   return (
     <DefaultLayout>
       <div className="pcoded-main-container">

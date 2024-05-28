@@ -34,6 +34,7 @@ function App() {
         {/* dersten ogrenciyi silme entegre edilecek */}
         <Route path='/teacher-lessons' element={<TeacherLessons />} />
 
+        {/* quiz silme entegre edilecek */}
         <Route path='/teacher-quizs' element={<TeacherQuizs />} />
         <Route path='/teacher-quizs/update/:quizId' element={<TeacherQuizUpdate />} />
         <Route path='/quiz/:quizId/questions/show' element={<TeacherQuizsQuestionShow />} />
@@ -41,17 +42,20 @@ function App() {
         {/* implement edilmedi */}
         <Route path='/quiz/:quizId/show' element={<TeacherQuizsShow />} />
 
-        {/* implement edilmedi */}
+        {/* implement edildi ama distinct gelmesi lazim */}
         <Route path='/teacher-students' element={<TeacherStudents />} />
 
         <Route path='/teacher-codes' element={<TeacherCode />} />
 
+        {/* implement edilmedi */}
         <Route path='/student-lessons' element={<StudentLessons />} />
 
+        {/* implement edilmedi */}
         <Route path='/student-codes' element={<StudentCode />} />
+
+        {/* suan butun quizler geliyor o degistirilecek */}
         <Route path='/student-quizs' element={<StudentQuizs />} />
 
-        {/* /student-quizs/1/index */}
         <Route path='/student-quizs/:quizId/index' element={<StudentQuizIndex />} />
         {/* /student-quizs/1/show */}
         <Route path='/student-quizs/:quizId/show' element={<StudentQuizShow />} />

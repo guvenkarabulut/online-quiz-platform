@@ -29,6 +29,12 @@ export const questionsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getQuestionByQuiz: builder.mutation({
+      query: (id) => ({
+        url: `questions/quiz/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -37,4 +43,5 @@ export const {
   useCreateQuestionMutation,
   useDeleteQuestionMutation,
   useUpdateQuestionMutation,
+  useGetQuestionByQuizMutation,
 } = questionsApiSlice;

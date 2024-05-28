@@ -20,8 +20,7 @@ export function QuestionsUpdateForm({ props }) {
 
   const [updateQuestion] = useUpdateQuestionMutation();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleSubmit = async () => {
     try {
       const response = await updateQuestion({
         id: question.id,

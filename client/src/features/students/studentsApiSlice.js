@@ -21,6 +21,12 @@ export const studentsApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getStudentsByTeacher: builder.mutation({
+      query: (id) => ({
+        url: `student-teacher/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -28,4 +34,5 @@ export const {
   useGetStudentsByLessonIdMutation,
   useGetStudentsNotInLessonMutation,
   useSetStudentToLessonMutation,
+  useGetStudentsByTeacherMutation,
 } = studentsApiSlice;

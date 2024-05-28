@@ -1,90 +1,52 @@
+import { useEffect, useState } from "react";
+import { Breadcrumb } from "../../components/Breadcrumb";
+import { Card } from "../../components/Card";
+import { Table } from "../../components/Table";
+import { TableRow } from "../../components/TableRow";
+import { useGetStudentsByTeacherMutation } from "../../features/students/studentsApiSlice";
 import DefaultLayout from "../../layouts/DefaultLayout";
 
 export function TeacherStudents() {
+  const [students, setStudents] = useState([]);
+  useEffect(() => {
+    getStudentsData();
+  }, [])
+
+  const [getStudentsByTeacher] = useGetStudentsByTeacherMutation();
+
+  const getStudentsData = async () => {
+    try {
+      const response = await getStudentsByTeacher(5).unwrap();
+      setStudents(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   return (
     <DefaultLayout>
-      <div class="pcoded-main-container">
-        <div class="pcoded-content">
-          <div class="page-header">
-            <div class="page-block">
-              <div class="row align-items-center">
-                <div class="col-md-12">
-                  <div class="page-header-title">
-                    <h5 class="m-b-10">Öğrenciler</h5>
-                  </div>
-                  <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-user"></i></a>
-                    </li>
-                    <li class="breadcrumb-item"><a href="#!">Öğrencilerim</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="pcoded-main-container">
+        <div className="pcoded-content">
+          <Breadcrumb props={{ childs: ["Ogrenciler"] }} />
           <div>
-            <div class="col-xl-12">
-              <div class="card">
-                <div class="card-header">
-                  <h5>Öğrencilerim</h5>
-                </div>
-                <div class="card-body table-border-style">
-                  <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover zero-configuration">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>İsim Soyisim</th>
-                          <th>Kullanıcı Adı</th>
-                          <th>İşlemler</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Yahya Başakçi</td>
-                          <td>yahyabasakci</td>
-                          <td>
-                            <button type="button" class="btn btn-danger btn-with-icon"><i
-                              class="feather icon-trash"></i></button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>Nazar Arik</td>
-                          <td>nazararik</td>
-                          <td>
-                            <button type="button" class="btn btn-danger btn-with-icon"><i
-                              class="feather icon-trash"></i></button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>Mustafa Akil</td>
-                          <td>mustafaakil</td>
-                          <td>
-                            <button type="button" class="btn btn-danger btn-with-icon"><i
-                              class="feather icon-trash"></i></button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>Güven Karabulut</td>
-                          <td>guvenkarabulut</td>
-                          <td>
-                            <button type="button" class="btn btn-danger btn-with-icon"><i
-                              class="feather icon-trash"></i></button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+            <Card props={{ name: "Quizlerim" }}>
+              <div className="table-responsive">
+                <Table columns={["#", "Ad Soyad", "Kullanici Adi"]}>
+                  {
+                    students.map((student, index) => {
+                      return (
+                        <TableRow key={student.id} rows={[index + 1, student.firstname + " " + student.lastname, student.username]}>
+                        </TableRow>
+                      )
+                    })
+                  }
+                </Table>
               </div>
-            </div>
+            </Card>
           </div>
-
         </div>
       </div>
-    </DefaultLayout>
+    </DefaultLayout >
   )
 }
