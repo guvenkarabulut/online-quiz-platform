@@ -21,6 +21,19 @@ export const quizsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateQuiz: builder.mutation({
+      query: (data) => ({
+        url: `quizzes`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+    getQuizById: builder.mutation({
+      query: (id) => ({
+        url: `quizzes/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -28,4 +41,6 @@ export const {
   useGetQuizzesMutation,
   useGetQuizzesByTeacherMutation,
   useCreateQuizMutation,
+  useUpdateQuizMutation,
+  useGetQuizByIdMutation,
 } = quizsApiSlice;

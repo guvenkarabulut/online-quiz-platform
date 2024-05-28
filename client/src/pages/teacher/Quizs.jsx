@@ -4,9 +4,26 @@ import { Table } from "../../components/Table";
 import { TableRow } from "../../components/TableRow";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import { AddQuizModal } from "../../components/modals/AddQuizModal";
-import { SeeQuizQuestionsModal } from "../../components/modals/SeeQuizQuestionsModal";
+import { useEffect, useState } from "react";
+import { useGetQuizzesByTeacherMutation, useGetQuizzesMutation } from "../../features/quizs/quizsApiSlice";
 
 export function TeacherQuizs() {
+  const [quizzes, setQuizzes] = useState([]);
+  useEffect(() => {
+    getQuizzesData();
+  }, [])
+
+  const [getQuizzesByTeacher] = useGetQuizzesByTeacherMutation()
+
+  const getQuizzesData = async () => {
+    try {
+      const response = await getQuizzesByTeacher(5).unwrap();
+      setQuizzes(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <DefaultLayout>
       <div className="pcoded-main-container">
@@ -19,14 +36,24 @@ export function TeacherQuizs() {
             <Card props={{ name: "Quizlerim" }}>
               <div className="table-responsive">
                 <Table columns={["#", "Quiz Adı", "Quiz Açıklaması", "Süre", "Başlangıç Tarihi", "Bitiş Tarihi", "Ders", "İşlemler"]}>
-                  <TableRow rows={["1", "Quiz 1", "Quiz 1 Açıklaması", "30 dk", "01.01.2021", "01.01.2021", "Matematik"]}>
-                    <button type="button" className="btn btn-danger btn-with-icon"><i className="feather icon-trash"></i></button>
-                    <button type="button" className="btn btn-success btn-with-icon"><i className="feather icon-edit"></i></button>
-                    <SeeQuizQuestionsModal />
-                    <a href="/quiz/1/show" type="button" className="btn btn-secondary btn-with-icon-text">
-                      Quiz Detayi
-                    </a>
-                  </TableRow>
+                  {
+                    quizzes.map((quiz, index) => {
+                      return (
+                        <TableRow key={quiz.id} rows={[index + 1, quiz.title, quiz.description, quiz.duration, quiz.start_time, quiz.end_time, quiz.lesson.Name]}>
+                          <button type="button" className="btn btn-danger btn-with-icon"><i className="feather icon-trash"></i></button>
+                          <a href={`/teacher-quizs/update/${quiz.id}`} type="button" className="btn btn-success btn-with-icon">
+                            <i className="feather icon-edit"></i>
+                          </a>
+                          <a href={`/quiz/${quiz.id}/questions/show`} type="button" className="btn btn-primary btn-with-icon-text">
+                            Sorular
+                          </a>
+                          <a href={`/quiz/${quiz.id}/show`} type="button" className="btn btn-secondary btn-with-icon-text">
+                            Quiz Detayi
+                          </a>
+                        </TableRow>
+                      )
+                    })
+                  }
                 </Table>
               </div>
             </Card>

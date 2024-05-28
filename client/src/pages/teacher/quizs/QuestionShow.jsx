@@ -56,33 +56,25 @@ export function TeacherQuizsQuestionShow() {
                 questions.map((question, index) => {
                   return (
                     <TableRow key={question.id} rows={[index + 1, question.text, question.point]}>
-                      <button type="button" className="btn btn-danger btn-with-icon" onClick={() => handleDelete(question.id)}>
-                        <i className="feather icon-trash"></i>
-                      </button>
-                      <div id="ogrenciEkle" className="modal fade" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalPopoversLabel" aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                              <h5 className="modal-title" id="exampleModalPopoversLabel">
-                                Duzenle</h5>
-                              <button type="button" className="close" data-dismiss="modal"
-                                aria-label="Close"><span
-                                  aria-hidden="true">&times;</span></button>
-                            </div>
-                            <div className="modal-body">
-                              <QuestionsUpdateForm props={{ question: question }} />
-                            </div>
-                            <div className="modal-footer">
-                              <button type="button"
-                                className="btn btn-primary">Kaydet</button>
+                      <div className="d-flex">
+                        <button type="button" className="btn btn-danger btn-with-icon" onClick={() => handleDelete(question.id)}>
+                          <i className="feather icon-trash"></i>
+                        </button>
+                        <div class="accordion" id={question.id + "accordionExample"}>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#" + question.id + "collapseOne"} aria-expanded="false" aria-controls={question.id + "collapseOne"}>
+                                Soruyu Guncelle
+                              </button>
+                            </h2>
+                            <div id={question.id + "collapseOne"} class="accordion-collapse collapsed collapse " data-bs-parent={"#" + question.id + " accordionExample"}>
+                              <div class="accordion-body">
+                                <QuestionsUpdateForm props={{ question: question }} />
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <button type="button" className="btn btn-success btn-with-icon-text"
-                        data-toggle="modal" data-target="#ogrenciEkle">
-                        <i className="feather icon-edit"></i>Duzenle</button>
                     </TableRow>
                   )
                 })

@@ -3,9 +3,6 @@ import { Card } from "../../components/Card";
 import { Table } from "../../components/Table";
 import { TableRow } from "../../components/TableRow";
 import DefaultLayout from "../../layouts/DefaultLayout";
-import { AddQuizModal } from "../../components/modals/AddQuizModal";
-import { SeeQuizQuestionsModal } from "../../components/modals/SeeQuizQuestionsModal";
-
 export function StudentQuizs() {
   return (
     <DefaultLayout props={{ name: "Ogrenci" }}>
