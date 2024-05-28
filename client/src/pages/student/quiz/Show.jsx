@@ -13,6 +13,8 @@ export function StudentQuizShow() {
   var { quizId } = useParams();
   const [getQuestionByQuiz] = useGetQuestionByQuizMutation();
   const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState({});
+
   useEffect(() => {
     getQuestionData();
   }, [])
@@ -22,9 +24,12 @@ export function StudentQuizShow() {
       const response = await getQuestionByQuiz(quizId).unwrap();
       setQuestions(response.data);
 
-      response.data.map((question) => {
-        setAnswers({ ...answers, [question.id]: "" })
-      })
+      if (response) {
+        await Promise.all(response.data.map(async (question) => {
+          await setAnswer(question.id, null)
+          console.log(answers)
+        }))
+      }
 
     }
     catch (error) {
@@ -32,7 +37,10 @@ export function StudentQuizShow() {
     }
   }
 
-  const [answers, setAnswers] = useState({});
+  const setAnswer = async (questionId, answer) => {
+    setAnswers({ ...answers, [questionId]: answer });
+  }
+
 
   return (
     <div className="container">
@@ -47,12 +55,11 @@ export function StudentQuizShow() {
               <ClassicComponent />
               <FilltheblankComponent />
               <TrueFalseComponent />
-
               {
                 questions.map((question, index) => {
                   return (
                     <div>
-                      {question.type}
+                      {question.id}
                     </div>
                   )
                 })
