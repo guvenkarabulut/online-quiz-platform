@@ -10,7 +10,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     getStudents: builder.mutation({
       query: () => ({
-        url: `users/student`,
+        url: `students`,
         method: "GET",
       }),
     }),

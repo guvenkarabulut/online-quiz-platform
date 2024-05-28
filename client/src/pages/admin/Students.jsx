@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Breadcrumb } from "../../components/Breadcrumb";
 import { Card } from "../../components/Card";
+import { Modal } from "../../components/modals/Modal";
 import { Table } from "../../components/Table";
 import { TableRow } from "../../components/TableRow";
 import { useGetStudentsMutation, useGetUsersMutation } from "../../features/users/usersApiSlice";
@@ -35,8 +36,11 @@ export function AdminStudents() {
                 users.map((user, index) => {
                   return (
                     <TableRow key={user.id} rows={[index + 1, user.firstname + " " + user.lastname, user.email, user.username]}>
-                      <button type="button" className="btn btn-danger btn-with-icon"><i
-                        className="feather icon-trash"></i></button>
+                      <Modal props={{ title: "Ogrenci Detayi", buttonTitle: "Ogrenciyi Goruntule" }}>
+                        {user.firstname + " " + user.lastname}<br />
+                        {user.email}<br />
+                        {user.username}
+                      </Modal>
                     </TableRow>
                   )
                 })
@@ -44,8 +48,8 @@ export function AdminStudents() {
             </Table>
           </div>
         </Card>
-      </div>
-    </DefaultLayout>
+      </div >
+    </DefaultLayout >
 
   )
 }

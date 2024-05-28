@@ -1,57 +1,104 @@
+import { useEffect, useState } from "react";
+import { useGetStudentsByLessonIdMutation, useGetStudentsNotInLessonMutation, useSetStudentToLessonMutation } from "../../features/students/studentsApiSlice";
 import { Table } from "../Table";
 import { TableRow } from "../TableRow";
 
-export function SeeStudentsModal() {
+export function SeeStudentsModal({ props }) {
+  const [students, setStudents] = useState([]);
+  const [lessonId, setLessonId] = useState(0);
+
+  const [getStudentsByLessonId] = useGetStudentsByLessonIdMutation();
+
+  useEffect(() => {
+    getStudentsData(props.lessonId)
+    getStudentsNotInLessonData(props.lessonId)
+    setLessonId(props.lessonId);
+  }, [])
+
+  const getStudentsData = async (id) => {
+    try {
+      const response = await getStudentsByLessonId(id).unwrap();
+      setStudents(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const [studentsNotInLesson, setStudentsNotInLesson] = useState([]);
+
+  const [getStudentsNotInLesson] = useGetStudentsNotInLessonMutation();
+
+
+  const getStudentsNotInLessonData = async (id) => {
+    try {
+      const response = await getStudentsNotInLesson(id).unwrap();
+      setStudentsNotInLesson(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const [setStudentToLesson] = useSetStudentToLessonMutation();
+
+  const [studentId, setStudentId] = useState(0);
+
+  const handleSetStudentToLesson = async () => {
+    try {
+      console.log(studentId, lessonId);
+      await setStudentToLesson({ lessonId: lessonId, studentId: studentId });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
-      <div id="ogrenciEkle" className="modal fade" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalPopoversLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalPopoversLabel">
-                Ders Ekle</h5>
-              <button type="button" className="close" data-dismiss="modal"
-                aria-label="Close"><span
-                  aria-hidden="true">&times;</span></button>
-            </div>
-            <div className="modal-body">
-              <div className="form-group">
-                <label
-                  for="exampleFormControlInput1">Öğrenciler</label>
-                <select className="form-control"
-                  id="exampleFormControlSelect1">
-                  <option>Öğrenci 1</option>
-                  <option>Öğrenci 2</option>
-                  <option>Öğrenci 3</option>
-                  <option>Öğrenci 4</option>
-                  <option>Öğrenci 5</option>
-                </select>
+      <div class="accordion" id={lessonId + "accordionExample"}>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#" + lessonId + "collapseOne"} aria-expanded="false" aria-controls={lessonId + "collapseOne"}>
+              Ogrenci Ekle
+            </button>
+          </h2>
+          <div id={lessonId + "collapseOne"} class="accordion-collapse collapsed collapse " data-bs-parent={"#" + lessonId + " accordionExample"}>
+            <div class="accordion-body">
+              <form onSubmit={handleSetStudentToLesson} key={lessonId}>
+                <div className="form-group">
+                  <label
+                    for="exampleFormControlInput1" key={lessonId}>Öğrenciler</label>
+                  <select className="form-control"
+                    id="exampleFormControlSelect1" onChange={(e) => setStudentId(e.target.value)}>
+                    <option value="" selected disabled hidden>Öğrenci Seç</option>
+                    {
+                      studentsNotInLesson.map((student) => {
+                        return (
+                          <option value={student.id}>{student.firstname + " " + student.lastname}</option>
+                        )
+                      })
+                    }
+                  </select>
+                </div>
+                <button type="submit"
+                  className="btn btn-primary">Kaydet</button>
+              </form>
+              <div className="table-responsive">
+                <Table columns={["#", "İsim Soyisim", "Kullanıcı Adı", "İşlemler"]}>
+                  {
+                    students.map((student, index) => {
+                      return (
+                        <TableRow key={student.id} rows={[index + 1, student.firstname + " " + student.lastname, student.username]}>
+                          <button type="button" className="btn btn-danger btn-with-icon">
+                            <i className="feather icon-trash"></i>
+                          </button>
+                        </TableRow>
+                      )
+                    })
+                  }
+                </Table>
               </div>
-              <button type="button"
-                className="btn  btn-primary">Kaydet</button>
-            </div>
-            <div className="table-responsive">
-              <Table columns={["#", "İsim Soyisim", "Kullanıcı Adı", "İşlemler"]}>
-                <TableRow rows={["1", "Yahya Başakçi", "yahyabasakci"]}>
-                  <button type="button"
-                    className="btn btn-danger btn-with-icon" > <i
-                      className="feather icon-trash"></i></button>
-                </TableRow>
-              </Table>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn  btn-secondary"
-                data-dismiss="modal">Kapat</button>
-              <button type="button"
-                className="btn  btn-primary">Kaydet</button>
             </div>
           </div>
         </div>
-      </div >
-      <button type="button" className="btn btn-success btn-with-icon-text"
-        data-toggle="modal" data-target="#ogrenciEkle">Öğrencileri
-        Görüntüle</button>
+      </div>
     </>
   )
 }

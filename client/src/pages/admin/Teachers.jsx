@@ -5,7 +5,7 @@ import { SeeStudentsModal } from "../../components/modals/SeeStudentsModal";
 import { Table } from "../../components/Table";
 import { TableRow } from "../../components/TableRow";
 import { useSetTeacherMutation } from "../../features/teachers/teachersApiSlice";
-import { useGetUsersMutation } from "../../features/users/usersApiSlice";
+import { useGetStudentsMutation, useGetUsersMutation } from "../../features/users/usersApiSlice";
 import DefaultLayout from "../../layouts/DefaultLayout";
 
 export function AdminTeachers() {
@@ -20,23 +20,22 @@ export function AdminTeachers() {
       console.log(error);
     }
   }
+
   const [users, setUsers] = useState([]);
   useEffect(() => {
     getUsersData();
   }, [])
 
-  const [getUsers] = useGetUsersMutation();
+  const [getStudents] = useGetStudentsMutation();
 
   const getUsersData = async () => {
     try {
-      const response = await getUsers().unwrap();
+      const response = await getStudents().unwrap();
       setUsers(response.data);
     } catch (error) {
       console.log(error);
     }
   }
-
-
   return (
     <DefaultLayout props={{ name: "Admin" }}>
       <div className="pcoded-main-container">

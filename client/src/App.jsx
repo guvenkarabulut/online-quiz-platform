@@ -14,7 +14,9 @@ import { StudentQuizs } from './pages/student/Quizs';
 import { TeacherCode } from './pages/teacher/Code';
 import TeacherLessons from './pages/teacher/Lessons';
 import { TeacherQuizs } from './pages/teacher/Quizs';
+import { TeacherQuizsQuestionShow } from './pages/teacher/quizs/QuestionShow';
 import { TeacherQuizsShow } from './pages/teacher/quizs/Show';
+import { TeacherQuizUpdate } from './pages/teacher/quizs/Update';
 import { TeacherStudents } from './pages/teacher/Students';
 
 function App() {
@@ -25,19 +27,27 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
 
-        <Route path='/teacher-lessons' element={<TeacherLessons />} />
-        <Route path='/teacher-quizs' element={<TeacherQuizs />} />
-        <Route path='/teacher-students' element={<TeacherStudents />} />
-        <Route path='/teacher-codes' element={<TeacherCode />} />
-        {/* /quiz/1/show */}
-        <Route path='/quiz/:quizId/show' element={<TeacherQuizsShow />} />
-
         <Route path='/admin-lessons' element={<AdminLessons />} />
         <Route path='/admin-teachers' element={<AdminTeachers />} />
         <Route path='/admin-students' element={<AdminStudents />} />
 
+        {/* dersten ogrenciyi silme entegre edilecek */}
+        <Route path='/teacher-lessons' element={<TeacherLessons />} />
+
+        <Route path='/teacher-quizs' element={<TeacherQuizs />} />
+        <Route path='/teacher-quizs/update/:quizId' element={<TeacherQuizUpdate />} />
+        <Route path='/quiz/:quizId/questions/show' element={<TeacherQuizsQuestionShow />} />
+
+        {/* implement edilmedi */}
+        <Route path='/quiz/:quizId/show' element={<TeacherQuizsShow />} />
+
+        {/* implement edilmedi */}
+        <Route path='/teacher-students' element={<TeacherStudents />} />
+
+        <Route path='/teacher-codes' element={<TeacherCode />} />
 
         <Route path='/student-lessons' element={<StudentLessons />} />
+
         <Route path='/student-codes' element={<StudentCode />} />
         <Route path='/student-quizs' element={<StudentQuizs />} />
 
