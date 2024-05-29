@@ -5,40 +5,28 @@ import { TestComponent } from "../../../components/quiz/TestComponent";
 import { ClassicComponent } from "../../../components/quiz/ClassicComponent";
 import { FilltheblankComponent } from "../../../components/quiz/FilltheblankComponent";
 import { TrueFalseComponent } from "../../../components/quiz/TrueFalseComponent";
-import { useGetQuestionByQuizMutation } from "../../../features/questions/questionsApiSlice";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useGetQuestionsByQuizMutation } from "../../../features/questions/questionsApiSlice";
 export function StudentQuizShow() {
 
   var { quizId } = useParams();
-  const [getQuestionByQuiz] = useGetQuestionByQuizMutation();
+
+  const [getQuestionsByQuiz] = useGetQuestionsByQuizMutation();
+
   const [questions, setQuestions] = useState([]);
-  const [answers, setAnswers] = useState({});
 
   useEffect(() => {
-    getQuestionData();
-  }, [])
+    fetchQuestions();
+  }, []);
 
-  const getQuestionData = async () => {
+  const fetchQuestions = async () => {
     try {
-      const response = await getQuestionByQuiz(quizId).unwrap();
+      const response = await getQuestionsByQuiz(quizId);
       setQuestions(response.data);
-
-      if (response) {
-        await Promise.all(response.data.map(async (question) => {
-          await setAnswer(question.id, null)
-          console.log(answers)
-        }))
-      }
-
+    } catch (error) {
+      console.error(error);
     }
-    catch (error) {
-      console.log(error);
-    }
-  }
-
-  const setAnswer = async (questionId, answer) => {
-    setAnswers({ ...answers, [questionId]: answer });
   }
 
 
@@ -55,15 +43,17 @@ export function StudentQuizShow() {
               <ClassicComponent />
               <FilltheblankComponent />
               <TrueFalseComponent />
-              {
-                questions.map((question, index) => {
-                  return (
-                    <div>
-                      {question.id}
-                    </div>
-                  )
-                })
-              }
+              {questions.id}
+              {/* { */}
+              {/*   questions.map((question) => { */}
+              {/*     return ( */}
+              {/*       <div class="card my-3"> */}
+              {/*         {question.id} */}
+              {/*       </div> */}
+              {/*     ) */}
+              {/**/}
+              {/*   }) */}
+              {/* } */}
               <div class="d-flex align-items-center pt-3">
                 <div class="ml-auto mr-sm-5">
                   <button class="btn btn-success">Kaydet</button>

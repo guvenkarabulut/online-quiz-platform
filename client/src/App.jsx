@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import RequireAuth from './features/auth/RequireAuth';
 import DefaultLayout from './layouts/DefaultLayout';
 import Layout from './layouts/Layout';
 import { AdminLessons } from './pages/admin/Lessons';
@@ -26,39 +27,38 @@ function App() {
         <Route path='/' element={<DefaultLayout />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route element={<RequireAuth />}>
 
-        <Route path='/admin-lessons' element={<AdminLessons />} />
-        <Route path='/admin-teachers' element={<AdminTeachers />} />
-        <Route path='/admin-students' element={<AdminStudents />} />
 
-        {/* dersten ogrenciyi silme entegre edilecek */}
-        <Route path='/teacher-lessons' element={<TeacherLessons />} />
+          <Route path='/admin-lessons' element={<AdminLessons />} />
+          <Route path='/admin-teachers' element={<AdminTeachers />} />
+          <Route path='/admin-students' element={<AdminStudents />} />
 
-        {/* quiz silme entegre edilecek */}
-        <Route path='/teacher-quizs' element={<TeacherQuizs />} />
-        <Route path='/teacher-quizs/update/:quizId' element={<TeacherQuizUpdate />} />
-        <Route path='/quiz/:quizId/questions/show' element={<TeacherQuizsQuestionShow />} />
+          <Route path='/teacher-lessons' element={<TeacherLessons />} />
 
-        {/* implement edilmedi */}
-        <Route path='/quiz/:quizId/show' element={<TeacherQuizsShow />} />
+          <Route path='/teacher-quizs' element={<TeacherQuizs />} />
+          <Route path='/teacher-quizs/update/:quizId' element={<TeacherQuizUpdate />} />
+          <Route path='/quiz/:quizId/questions/show' element={<TeacherQuizsQuestionShow />} />
 
-        {/* implement edildi ama distinct gelmesi lazim */}
-        <Route path='/teacher-students' element={<TeacherStudents />} />
+          {/* implement edilmedi */}
+          <Route path='/quiz/:quizId/show' element={<TeacherQuizsShow />} />
 
-        <Route path='/teacher-codes' element={<TeacherCode />} />
+          <Route path='/teacher-students' element={<TeacherStudents />} />
 
-        {/* implement edilmedi */}
-        <Route path='/student-lessons' element={<StudentLessons />} />
+          <Route path='/teacher-codes' element={<TeacherCode />} />
 
-        {/* implement edilmedi */}
-        <Route path='/student-codes' element={<StudentCode />} />
+          <Route path='/student-lessons' element={<StudentLessons />} />
 
-        {/* suan butun quizler geliyor o degistirilecek */}
-        <Route path='/student-quizs' element={<StudentQuizs />} />
+          {/* implement edilmedi */}
+          <Route path='/student-codes' element={<StudentCode />} />
 
-        <Route path='/student-quizs/:quizId/index' element={<StudentQuizIndex />} />
-        {/* /student-quizs/1/show */}
-        <Route path='/student-quizs/:quizId/show' element={<StudentQuizShow />} />
+          {/* suan butun quizler geliyor o degistirilecek */}
+          <Route path='/student-quizs' element={<StudentQuizs />} />
+
+          <Route path='/student-quizs/:quizId/index' element={<StudentQuizIndex />} />
+          {/* /student-quizs/1/show */}
+          <Route path='/student-quizs/:quizId/show' element={<StudentQuizShow />} />
+        </Route>
       </Route>
     </Routes>
   );

@@ -1,0 +1,71 @@
+import { Routes, Route } from 'react-router-dom';
+import DefaultLayout from './layouts/DefaultLayout';
+import Layout from './layouts/Layout';
+import { AdminLessons } from './pages/admin/Lessons';
+import { AdminStudents } from './pages/admin/Students';
+import { AdminTeachers } from './pages/admin/Teachers';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { StudentCode } from './pages/student/Code';
+import StudentLessons from './pages/student/Lessons';
+import { StudentQuizIndex } from './pages/student/quiz/Index';
+import { StudentQuizShow } from './pages/student/quiz/Show';
+import { StudentQuizs } from './pages/student/Quizs';
+import { TeacherCode } from './pages/teacher/Code';
+import TeacherLessons from './pages/teacher/Lessons';
+import { TeacherQuizs } from './pages/teacher/Quizs';
+import { TeacherQuizsQuestionShow } from './pages/teacher/quizs/QuestionShow';
+import { TeacherQuizsShow } from './pages/teacher/quizs/Show';
+import { TeacherStudents } from './pages/teacher/Students';
+
+function App() {
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path='/' element={<DefaultLayout />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+
+
+        {/* Ogretmen Secme implemet edilmedi */}
+        <Route path='/admin-lessons' element={<AdminLessons />} />
+
+        {/* ok test edilecek */}
+        <Route path='/admin-teachers' element={<AdminTeachers />} />
+
+        {/* api de problem var gelmiyor */}
+        <Route path='/admin-students' element={<AdminStudents />} />
+
+        {/* login olmadigi icin statik user_id verildi */}
+        <Route path='/teacher-lessons' element={<TeacherLessons />} />
+
+        {/* delete update yapilacak */}
+        <Route path='/teacher-quizs' element={<TeacherQuizs />} />
+
+        {/* /quiz/1/show */}
+        {/* ok test edilecek */}
+        <Route path='/quiz/:quizId/questions/show' element={<TeacherQuizsQuestionShow />} />
+
+        {/* implement edilmedi */}
+        <Route path='/quiz/:quizId/show' element={<TeacherQuizsShow />} />
+
+        {/* implement edilmedi */}
+        <Route path='/teacher-students' element={<TeacherStudents />} />
+
+        {/* ok test edilecek submission oldugu icin silerken hata veriyor */}
+        <Route path='/teacher-codes' element={<TeacherCode />} />
+
+        <Route path='/student-lessons' element={<StudentLessons />} />
+        <Route path='/student-codes' element={<StudentCode />} />
+        <Route path='/student-quizs' element={<StudentQuizs />} />
+
+        {/* /student-quizs/1/index */}
+        <Route path='/student-quizs/:quizId/index' element={<StudentQuizIndex />} />
+        {/* /student-quizs/1/show */}
+        <Route path='/student-quizs/:quizId/show' element={<StudentQuizShow />} />
+      </Route>
+    </Routes>
+  );
+}
+
+export default App;

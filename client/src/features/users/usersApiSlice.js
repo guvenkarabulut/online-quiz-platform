@@ -14,10 +14,17 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getUserById: builder.mutation({
+      query: (id) => ({
+        url: `users/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useGetUsersMutation,
   useGetStudentsMutation,
+  useGetUserByIdMutation,
 } = usersApiSlice;

@@ -27,6 +27,12 @@ export const lessonsApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    deleteStudentInLesson: builder.mutation({
+      query: (data) => ({
+        url: `student-lesson/remove/${data.lessonId}/${data.studentId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -35,4 +41,5 @@ export const {
   useGetLessonsByTeacherMutation,
   useCreateLessonMutation,
   useDeleteLessonMutation,
+  useDeleteStudentInLessonMutation,
 } = lessonsApiSlice;

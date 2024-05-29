@@ -1,10 +1,18 @@
-import { useState } from "react";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../features/auth/authApiSlice";
 import { setRegister } from "../features/auth/authSlice";
 
 export function Register() {
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      window.location.href = "/";
+    }
+  }, []);
+
   const [user, setUser] = useState({
     email: '',
     password: '',

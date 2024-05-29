@@ -5,7 +5,7 @@ import DefaultLayout from "../../../layouts/DefaultLayout";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useGetQuizByIdMutation } from "../../../features/quizs/quizsApiSlice";
-import { useGetQuestionByQuizMutation } from "../../../features/questions/questionsApiSlice";
+import { useGetQuestionsByQuizMutation } from "../../../features/questions/questionsApiSlice";
 import { useCreateUserQuizMutation } from "../../../features/userQuiz/userQuizApiSlice";
 
 export function StudentQuizIndex() {
@@ -32,12 +32,12 @@ export function StudentQuizIndex() {
     }
   }
 
-  const [getQuestionByQuiz] = useGetQuestionByQuizMutation();
+  const [getQuestionsByQuiz] = useGetQuestionsByQuizMutation();
   const [questions, setQuestions] = useState([]);
 
   const getQuestionData = async () => {
     try {
-      const response = await getQuestionByQuiz(quizId).unwrap();
+      const response = await getQuestionsByQuiz(quizId).unwrap();
       setQuestions(response.data);
     }
     catch (error) {
@@ -83,7 +83,7 @@ export function StudentQuizIndex() {
                   <ul>
                     <li>Quizinizin suresi {quiz.duration} dakikadir. Sure bitiminde quiz otomatik olarak kapanacaktir.</li>
                     <li>Kaydedilmemis cevaplariniz kaybolacak ve puanlama yapilmayacaktir.</li>
-                    <li>Quizinizde {questions.length} soru bulunmaktadir.</li>
+                    <li>Quizinizde 10 soru bulunmaktadir.</li>
                     <li>Sorular arasi gecis yapilamiyor.</li>
                   </ul>
                 </p>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDeleteStudentInLessonMutation } from "../../features/lessons/lessonsApiSlice";
 import { useGetStudentsByLessonIdMutation, useGetStudentsNotInLessonMutation, useSetStudentToLessonMutation } from "../../features/students/studentsApiSlice";
 import { Table } from "../Table";
 import { TableRow } from "../TableRow";
@@ -50,6 +51,18 @@ export function SeeStudentsModal({ props }) {
     }
   }
 
+  const [deleteStudentInLesson] = useDeleteStudentInLessonMutation();
+
+  const handleDeleteStudent = async (studentId) => {
+    try {
+      await deleteStudentInLesson({ lessonId: lessonId, studentId: studentId });
+      getStudentsData(lessonId);
+      getStudentsNotInLessonData(lessonId);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <div class="accordion" id={lessonId + "accordionExample"}>
@@ -86,7 +99,7 @@ export function SeeStudentsModal({ props }) {
                     students.map((student, index) => {
                       return (
                         <TableRow key={student.id} rows={[index + 1, student.firstname + " " + student.lastname, student.username]}>
-                          <button type="button" className="btn btn-danger btn-with-icon">
+                          <button type="button" className="btn btn-danger btn-with-icon" onClick={() => { handleDeleteStudent(student.id) }} >
                             <i className="feather icon-trash"></i>
                           </button>
                         </TableRow>

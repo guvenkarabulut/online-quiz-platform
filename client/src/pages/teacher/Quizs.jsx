@@ -5,7 +5,7 @@ import { TableRow } from "../../components/TableRow";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import { AddQuizModal } from "../../components/modals/AddQuizModal";
 import { useEffect, useState } from "react";
-import { useGetQuizzesByTeacherMutation, useGetQuizzesMutation } from "../../features/quizs/quizsApiSlice";
+import { useDeleteQuizMutation, useGetQuizzesByTeacherMutation, useGetQuizzesMutation } from "../../features/quizs/quizsApiSlice";
 
 export function TeacherQuizs() {
   const [quizzes, setQuizzes] = useState([]);
@@ -17,12 +17,24 @@ export function TeacherQuizs() {
 
   const getQuizzesData = async () => {
     try {
-      const response = await getQuizzesByTeacher(5).unwrap();
+      const response = await getQuizzesByTeacher(7).unwrap();
       setQuizzes(response.data);
     } catch (error) {
       console.log(error);
     }
   }
+
+  const [deleteQuiz] = useDeleteQuizMutation();
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteQuiz(id).unwrap();
+      getQuizzesData();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   return (
     <DefaultLayout>
@@ -40,7 +52,7 @@ export function TeacherQuizs() {
                     quizzes.map((quiz, index) => {
                       return (
                         <TableRow key={quiz.id} rows={[index + 1, quiz.title, quiz.description, quiz.duration, quiz.start_time, quiz.end_time, quiz.lesson.Name]}>
-                          <button type="button" className="btn btn-danger btn-with-icon"><i className="feather icon-trash"></i></button>
+                          <button type="button" className="btn btn-danger btn-with-icon" onClick={() => { handleDelete(quiz.id) }}><i className="feather icon-trash"></i></button>
                           <a href={`/teacher-quizs/update/${quiz.id}`} type="button" className="btn btn-success btn-with-icon">
                             <i className="feather icon-edit"></i>
                           </a>
