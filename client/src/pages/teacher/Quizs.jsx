@@ -6,6 +6,8 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 import { AddQuizModal } from "../../components/modals/AddQuizModal";
 import { useEffect, useState } from "react";
 import { useDeleteQuizMutation, useGetQuizzesByTeacherMutation, useGetQuizzesMutation } from "../../features/quizs/quizsApiSlice";
+import Cookies from "js-cookie";
+import { getUserIdFromToken } from "../../utils/jwt";
 
 export function TeacherQuizs() {
   const [quizzes, setQuizzes] = useState([]);
@@ -17,7 +19,7 @@ export function TeacherQuizs() {
 
   const getQuizzesData = async () => {
     try {
-      const response = await getQuizzesByTeacher(7).unwrap();
+      const response = await getQuizzesByTeacher(getUserIdFromToken(Cookies.get("token"))).unwrap();
       setQuizzes(response.data);
     } catch (error) {
       console.log(error);

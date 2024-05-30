@@ -40,6 +40,12 @@ export const quizsApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getUserQuizWithAnswersByUserAndQuizId: builder.mutation({
+      query: (data) => ({
+        url: `student-answer/${data.userId}/${data.quizId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -50,4 +56,5 @@ export const {
   useUpdateQuizMutation,
   useGetQuizByIdMutation,
   useDeleteQuizMutation,
+  useGetUserQuizWithAnswersByUserAndQuizIdMutation
 } = quizsApiSlice;

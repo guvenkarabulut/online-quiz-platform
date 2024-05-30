@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { Breadcrumb } from "../../components/Breadcrumb";
 import { Card } from "../../components/Card";
@@ -6,6 +7,7 @@ import { Table } from "../../components/Table";
 import { TableRow } from "../../components/TableRow";
 import { useGetUserByIdMutation } from "../../features/users/usersApiSlice";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { getUserIdFromToken } from "../../utils/jwt";
 
 const StudentLessons = () => {
   const [lessons, setLessons] = useState([]);
@@ -17,7 +19,7 @@ const StudentLessons = () => {
 
   const getLessonsData = async () => {
     try {
-      const response = await getUserById(6).unwrap();
+      const response = await getUserById(getUserIdFromToken(Cookies.get("token"))).unwrap();
       setLessons(response.lessons);
 
     } catch (error) {

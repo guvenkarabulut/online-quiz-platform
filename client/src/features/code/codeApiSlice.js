@@ -21,6 +21,12 @@ export const codeApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getCodeById: builder.mutation({
+      query: (id) => ({
+        url: `codes/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -28,4 +34,5 @@ export const {
   useGetCodeMutation,
   useCreateCodeMutation,
   useDeleteCodeMutation,
+  useGetCodeByIdMutation,
 } = codeApiSlice;

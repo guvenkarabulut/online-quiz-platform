@@ -21,9 +21,6 @@ export function StudentQuizs() {
       console.log(error);
     }
   }
-
-
-
   return (
     <DefaultLayout props={{ name: "Ogrenci" }}>
       <div className="pcoded-main-container">
@@ -40,9 +37,7 @@ export function StudentQuizs() {
                           <a href={`/student-quizs/${quiz.id}/index`} type="button" className="btn btn-primary btn-with-icon-text">
                             Quize Basla
                           </a>
-                          <a href={`/quiz/${quiz.id}/show`} type="button" className="btn btn-secondary btn-with-icon-text">
-                            Quiz Bilgiler
-                          </a>
+
                         </TableRow>
                       )
                     })

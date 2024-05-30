@@ -1,6 +1,8 @@
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
 import { useCreateLessonMutation } from "../../../features/lessons/lessonsApiSlice";
 import { useGetAllTeachersMutation } from "../../../features/teachers/teachersApiSlice";
+import { getUserIdFromToken } from "../../../utils/jwt";
 
 export function AdminLessonsForm() {
   const [teachers, setTeachers] = useState([])
@@ -24,7 +26,7 @@ export function AdminLessonsForm() {
     name: "",
     definition: "",
     lesson_code: "",
-    teacher_id: 5,
+    teacher_id: getUserIdFromToken(Cookies.get("token"))
   })
 
   const handleChange = (e) => {

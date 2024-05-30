@@ -6,7 +6,7 @@ import { QuestionsForm } from "../../../components/questions/Form"
 import { QuestionsUpdateForm } from "../../../components/questions/UpdateForm"
 import { Table } from "../../../components/Table"
 import { TableRow } from "../../../components/TableRow"
-import { useDeleteQuestionMutation, useGetQuestionsByQuizIdMutation } from "../../../features/questions/questionsApiSlice"
+import { useDeleteQuestionMutation, useGetQuestionsByQuizMutation } from "../../../features/questions/questionsApiSlice"
 import DefaultLayout from "../../../layouts/DefaultLayout"
 
 export function TeacherQuizsQuestionShow() {
@@ -17,12 +17,13 @@ export function TeacherQuizsQuestionShow() {
     getQuestionsData();
   }, [])
 
-  const [getQuestions] = useGetQuestionsByQuizIdMutation();
+  const [getQuestionsByQuiz] = useGetQuestionsByQuizMutation();
 
   const getQuestionsData = async () => {
     try {
-      const response = await getQuestions(quizId).unwrap();
-      setQuestions(response.data);
+      const response = await getQuestionsByQuiz(quizId).unwrap();
+      setQuestions(response);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -39,8 +40,6 @@ export function TeacherQuizsQuestionShow() {
     }
   }
 
-
-
   return (
     <DefaultLayout>
       <div className="pcoded-main-container">
@@ -55,21 +54,21 @@ export function TeacherQuizsQuestionShow() {
               {
                 questions.map((question, index) => {
                   return (
-                    <TableRow key={question.id} rows={[index + 1, question.text, question.point]}>
+                    <TableRow key={question.question.ID} rows={[index + 1, question.question.Text, question.question.Point]}>
                       <div className="d-flex">
-                        <button type="button" className="btn btn-danger btn-with-icon" onClick={() => handleDelete(question.id)}>
+                        <button type="button" className="btn btn-danger btn-with-icon" onClick={() => handleDelete(question.question.ID)}>
                           <i className="feather icon-trash"></i>
                         </button>
-                        <div class="accordion" id={question.id + "accordionExample"}>
+                        <div class="accordion" id={question.question.ID + "accordionExample"}>
                           <div class="accordion-item">
                             <h2 class="accordion-header">
-                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#" + question.id + "collapseOne"} aria-expanded="false" aria-controls={question.id + "collapseOne"}>
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#" + question.question.ID + "collapseOne"} aria-expanded="false" aria-controls={question.question.ID + "collapseOne"}>
                                 Soruyu Guncelle
                               </button>
                             </h2>
-                            <div id={question.id + "collapseOne"} class="accordion-collapse collapsed collapse " data-bs-parent={"#" + question.id + " accordionExample"}>
+                            <div id={question.question.ID + "collapseOne"} class="accordion-collapse collapsed collapse " data-bs-parent={"#" + question.question.ID + " accordionExample"}>
                               <div class="accordion-body">
-                                <QuestionsUpdateForm props={{ question: question }} />
+                                <QuestionsUpdateForm props={{ question: question.question }} />
                               </div>
                             </div>
                           </div>

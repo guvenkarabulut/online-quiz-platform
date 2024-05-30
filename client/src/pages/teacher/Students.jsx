@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { Breadcrumb } from "../../components/Breadcrumb";
 import { Card } from "../../components/Card";
@@ -5,6 +6,7 @@ import { Table } from "../../components/Table";
 import { TableRow } from "../../components/TableRow";
 import { useGetStudentsByTeacherMutation } from "../../features/students/studentsApiSlice";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { getUserIdFromToken } from "../../utils/jwt";
 
 export function TeacherStudents() {
   const [students, setStudents] = useState([]);
@@ -16,7 +18,7 @@ export function TeacherStudents() {
 
   const getStudentsData = async () => {
     try {
-      const response = await getStudentsByTeacher(5).unwrap();
+      const response = await getStudentsByTeacher(getUserIdFromToken(Cookies.get("token"))).unwrap();
       setStudents(response.data);
     } catch (error) {
       console.log(error);

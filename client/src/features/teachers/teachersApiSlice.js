@@ -10,7 +10,7 @@ export const teachersApiSlice = apiSlice.injectEndpoints({
     }),
     setTeacher: builder.mutation({
       query: (userId) => ({
-        url: `users/teacher/${userId}`,
+        url: `teacher/${userId}`,
         method: "GET",
       }),
     }),

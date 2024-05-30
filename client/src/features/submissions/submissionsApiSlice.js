@@ -9,9 +9,16 @@ export const submissionsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getSubmissionsByCodeId: builder.mutation({
+      query: (codeId) => ({
+        url: `code-submission-code/${codeId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useCreateSubmissionsMutation,
+  useGetSubmissionsByCodeIdMutation,
 } = submissionsApiSlice;

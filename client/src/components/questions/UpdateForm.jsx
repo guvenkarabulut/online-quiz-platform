@@ -5,10 +5,10 @@ import { useCreateQuestionMutation, useUpdateQuestionMutation } from "../../feat
 export function QuestionsUpdateForm({ props }) {
 
   const [question, setQuestion] = useState({
-    id: props.question.id,
-    text: props.question.text,
-    point: props.question.point,
-    type: props.question.type,
+    id: props.question.ID,
+    text: props.question.Text,
+    point: props.question.Point,
+    type: props.question.Type,
   })
 
   const handleQuestionChange = (e) => {

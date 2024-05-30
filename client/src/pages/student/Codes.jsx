@@ -8,7 +8,7 @@ import { TeacherCodeForm } from "../../components/teacher/code/Form";
 import { useDeleteCodeMutation, useGetCodeMutation } from "../../features/code/codeApiSlice";
 import DefaultLayout from "../../layouts/DefaultLayout";
 
-export function TeacherCode() {
+export function StudentCodes() {
   const [codes, setCodes] = useState([]);
 
   useEffect(() => {
@@ -25,34 +25,19 @@ export function TeacherCode() {
       console.log(error);
     }
   }
-  const [deleteCode] = useDeleteCodeMutation();
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteCode(id);
-      getCodesData();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   return (
     <DefaultLayout>
       <div className="pcoded-main-container">
-        <Breadcrumb props={{ childs: ["Kod Sorulari"] }} />
-        <Card props={{ name: "Soru Olustur" }}>
-          <TeacherCodeForm />
-        </Card>
         <Card props={{ name: "Soru Olustur" }}>
           <div className="table-responsive">
             <Table columns={["#", "Soru", "İşlemler"]}>
               {
                 codes.map((code, index) => {
                   return (
-                    <TableRow key={code.id} rows={[index + 1, DOMPurify.sanitize(code.question)]}>
-                      <button type="button" className="btn btn-danger btn-with-icon" onClick={() => handleDelete(code.id)}>
-                        <i className="feather icon-trash"></i>
-                      </button>
+                    <TableRow key={code.id} rows={[index + 1, DOMPurify.sanitize(code.question),]}>
+                      <a href={`/student-code/${code.id}`} className="btn btn-primary">
+                        Kodu Gör
+                      </a>
                     </TableRow>
                   )
                 })

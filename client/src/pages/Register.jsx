@@ -25,7 +25,6 @@ export function Register() {
   }
 
   const [register] = useRegisterMutation();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -40,7 +39,6 @@ export function Register() {
       }).unwrap();
 
       if (userData.token !== null) {
-        dispatch(setRegister({ ...userData, email: user.email }));
         setUser({
           firstname: "",
           lastname: "",

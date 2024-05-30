@@ -1,7 +1,9 @@
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
 import { useGetLessonsByTeacherMutation } from "../../features/lessons/lessonsApiSlice";
 import { useCreateQuizMutation } from "../../features/quizs/quizsApiSlice";
 import { formatDate } from "../../utils/date";
+import { getUserIdFromToken } from "../../utils/jwt";
 
 export function AddQuizModal() {
   const handleChange = (e) => {
@@ -19,7 +21,7 @@ export function AddQuizModal() {
     start_time: '',
     end_time: '',
     lesson_id: 0,
-    teacher_id: 5
+    teacher_id: getUserIdFromToken(Cookies.get("token"))
   })
 
   const [lessons, setLessons] = useState([]);
@@ -31,7 +33,7 @@ export function AddQuizModal() {
 
   const getLessonsData = async () => {
     try {
-      const response = await getLessonsByTeacher(5).unwrap();
+      const response = await getLessonsByTeacher(getUserIdFromToken(Cookies.get("token"))).unwrap();
       setLessons(response.data);
     } catch (error) {
       console.log(error);

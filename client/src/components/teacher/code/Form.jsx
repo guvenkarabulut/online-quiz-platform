@@ -1,8 +1,10 @@
+import Cookies from 'js-cookie';
 import { Editor } from 'primereact/editor';
 import { useEffect, useState } from "react";
 import { useCreateCodeMutation } from '../../../features/code/codeApiSlice';
 import { useGetLessonsByTeacherMutation } from '../../../features/lessons/lessonsApiSlice';
 import { useCreateSubmissionsMutation } from '../../../features/submissions/submissionsApiSlice';
+import { getUserIdFromToken } from '../../../utils/jwt';
 
 export function TeacherCodeForm({ props }) {
   const [text, setText] = useState('');
@@ -12,7 +14,7 @@ export function TeacherCodeForm({ props }) {
 
   // TODO: change 5 after login
   useEffect(() => {
-    getLessons(5)
+    getLessons(getUserIdFromToken(Cookies.get("token")))
   }, [])
 
   const getLessons = async (teacherId) => {
@@ -67,7 +69,7 @@ export function TeacherCodeForm({ props }) {
       await Promise.all(tests.map(async (test) => {
         await createSubmissions({
           input: test.input,
-          output: test.output,
+          expected_output: test.output,
           code_id: response.ID
         });
       }));

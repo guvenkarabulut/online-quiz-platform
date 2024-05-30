@@ -4,13 +4,29 @@ import { Breadcrumb } from "../../../components/Breadcrumb"
 import { Card } from "../../../components/Card"
 import { Table } from "../../../components/Table"
 import { TableRow } from "../../../components/TableRow"
-import { useGetQuizByIdMutation } from "../../../features/quizs/quizsApiSlice"
+import { useGetUsersQuizByUserIdMutation } from "../../../features/userQuiz/userQuizApiSlice"
 import DefaultLayout from "../../../layouts/DefaultLayout"
 
 export function TeacherQuizsShow() {
+  const [getUsersQuizByUserId] = useGetUsersQuizByUserIdMutation();
 
+  const [quiz, setQuiz] = useState({});
 
+  var { quizId } = useParams();
 
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+
+  const fetchQuiz = async () => {
+    try {
+      const response = await getUsersQuizByUserId(quizId).unwrap();
+      setQuiz(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <DefaultLayout>
@@ -19,14 +35,16 @@ export function TeacherQuizsShow() {
         <Card props={{ name: "Dersler" }}>
           <div className="table-responsive">
             <Table columns={["#", "Isim Soyisim", "Eposta", "Kullanici Adi", "İşlemler"]}>
-              <TableRow rows={["1", "Mustafa Akil", "makil@gmail.com", "makil21"]}>
-                <button type="button" className="btn btn-primary btn-with-icon-text">
-                  Cevapları Gör
-                </button>
-                <button type="button" className="btn btn-success btn-with-icon-text">
-                  Puan Ver
-                </button>
-              </TableRow>
+              {
+                quiz.length > 0 && quiz.map((quiz_answer, index) => (
+                  <TableRow key={quiz_answer.id} rows={[index + 2, quiz_answer.firstname + " " + quiz_answer.lastname, quiz_answer.email, quiz_answer.username]}>
+                    <a href={`/quiz/${quizId}/${quiz_answer.id}/answers`} className="btn btn-primary btn-with-icon-text">
+                      Cevapları Gör
+                    </a>
+                  </TableRow>
+                ))
+              }
+
             </Table>
           </div>
         </Card>

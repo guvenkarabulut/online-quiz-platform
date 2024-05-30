@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { useGetQuizByIdMutation } from "../../../features/quizs/quizsApiSlice";
 import { useGetQuestionsByQuizMutation } from "../../../features/questions/questionsApiSlice";
 import { useCreateUserQuizMutation } from "../../../features/userQuiz/userQuizApiSlice";
+import { getUserIdFromToken } from "../../../utils/jwt";
+import Cookies from "js-cookie";
 
 export function StudentQuizIndex() {
   const handleBack = () => {
@@ -55,13 +57,13 @@ export function StudentQuizIndex() {
           result: 0,
           is_review: false,
           // TODO: user_id should be dynamic
-          user_id: 6,
+          user_id: getUserIdFromToken(Cookies.get("token")),
           quiz_id: parseInt(quizId),
         }
       ).unwrap();
 
       if (response) {
-        window.location.href = `/student-quizs/${quizId}/show`;
+        window.location.href = `/student-quizs/${quizId}/show/${response.ID}`;
       }
     }
     catch (error) {
@@ -83,7 +85,6 @@ export function StudentQuizIndex() {
                   <ul>
                     <li>Quizinizin suresi {quiz.duration} dakikadir. Sure bitiminde quiz otomatik olarak kapanacaktir.</li>
                     <li>Kaydedilmemis cevaplariniz kaybolacak ve puanlama yapilmayacaktir.</li>
-                    <li>Quizinizde 10 soru bulunmaktadir.</li>
                     <li>Sorular arasi gecis yapilamiyor.</li>
                   </ul>
                 </p>

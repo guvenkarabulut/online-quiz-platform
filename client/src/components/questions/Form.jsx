@@ -5,6 +5,12 @@ import { useCreateQuestionMutation } from "../../features/questions/questionsApi
 export function QuestionsForm({ props }) {
   const [questionType, setQuestionType] = useState('')
 
+  const [question, setQuestion] = useState({
+    text: '',
+    point: 0,
+    type: 0,
+    quiz_id: props.quizId,
+  })
   const setQuestionState = () => {
     const questionType = document.getElementById('exampleFormControlSelect1').value
     setQuestionType(questionType)
@@ -14,21 +20,18 @@ export function QuestionsForm({ props }) {
       type: questionType
     })
 
+    console.log(question)
     setChoices([])
   }
 
-  const [question, setQuestion] = useState({
-    text: '',
-    point: 0,
-    type: 0,
-    quiz_id: props.quizId,
-  })
 
   const handleQuestionChange = (e) => {
     setQuestion({
       ...question,
       [e.target.name]: e.target.value
     })
+
+    console.log(question)
   }
 
   const [choices, setChoices] = useState([])
@@ -49,7 +52,7 @@ export function QuestionsForm({ props }) {
       const response = await createQuestion({
         text: question.text,
         point: parseInt(question.point),
-        type: question.type.toString(),
+        type: parseInt(question.type),
         quiz_id: parseInt(question.quiz_id),
       }).unwrap()
 
